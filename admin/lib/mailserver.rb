@@ -2,6 +2,9 @@ class Mailserver
 
   def processes
     {
+      :php        => %x{ps -ax | egrep php-fpm | grep -v grep | wc -l}.to_i > 0,
+      :nginx      => %x{ps -ax | egrep nginx | grep -v grep | wc -l}.to_i > 0,
+      :memcached  => %x{ps -ax | egrep memcached | grep -v grep | wc -l}.to_i > 0,
       :clamd      => %x{ps -ax | egrep clamd | grep -v grep | wc -l}.to_i > 0,
       :postfix    => %x{ps -ax | egrep postfix\/master | grep -v grep | wc -l}.to_i > 0,
       :dovecot    => %x{ps -ax | egrep dovecot$ | grep -v grep | wc -l}.to_i > 0,

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$MAILSERV_DEVEL" -eq "1" ]; then
+  set -xv
+fi
+
 if [ ! -f /etc/ssl/private/server.key ]; then
   # Generate SSL keys if none exists
 

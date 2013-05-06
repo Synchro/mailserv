@@ -1,15 +1,24 @@
 #!/bin/sh
 
+if [ "$MAILSERV_DEVEL" -eq "1" ]; then
+  set -xv
+fi
+
 if [ X"$PKG_PATH" == X"" ]; then
   export PKG_PATH=http://ftp.OpenBSD.org/pub/OpenBSD/`uname -r`/packages/`uname -m`/
-  grep PKG_PATH /etc/profile || echo "export PKG_PATH=http://ftp.OpenBSD.org/pub/OpenBSD/`uname -r`/packages/`uname -m`/" >> /etc/profile
 fi
+
+# Make sure PKG_PATH is stored permanently
+if [ ! -f /etc/profile ]; then
+  touch /etc/profile
+fi
+grep PKG_PATH /etc/profile || echo "export PKG_PATH=${PKG_PATH}" >> /etc/profile
 
 case $1 in
 
   (install):
     echo "Installing packages"
-    mkdir /var/db/spamassassin 2>/dev/null
+    mkdir -p /var/db/spamassassin
     cat <<__EOT
     
 You will be prompted to install:
@@ -19,7 +28,7 @@ Fetching versions:
 
 __EOT
     pkg_add -v -m -i postfix--mysql 
-  
+
     pkg_add -v -m -I \
      clamav \
      gnupg-1.4.13 \
@@ -35,11 +44,12 @@ __EOT
      ruby-iconv \
      god \
      dovecot-pigeonhole \
-     dovecot-mysql \
      memcached \
      mysql-server \
-     nginx-1.2.3p1 \
+     nginx \
+     pcre \
      sqlgrey \
+     god \
      gsed \
      gtar-- \
      php-5.3.21 \

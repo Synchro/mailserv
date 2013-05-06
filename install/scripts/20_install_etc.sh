@@ -1,5 +1,11 @@
+#!/bin/sh
+
 # Only run on install
 [[ "$1" != "install" ]] && exit 1
+
+if [ "$MAILSERV_DEVEL" -eq "1" ]; then
+  set -xv
+fi
 
 # --------------------------------------------------------------
 # sasl and filesystem stuff
@@ -12,16 +18,20 @@ install /var/mailserv/install/templates/fs/mailserv/* /usr/local/share/mailserv
 
 # Create a 64M RAM disk to keep PHP sessions in
 mkdir -p /tmp/phpsessions
-mount_mfs -s 131072 -o rw,async,nodev,noexec,nosuid swap /tmp/phpsessions
+mount_mfs -o rw,async,nodev,noexec,nosuid -s 131072 /dev/wd0b /tmp/phpsessions
 chown -R www:www /tmp/phpsessions
-echo "swap /tmp/phpsessions mfs rw,async,nodev,noexec,nosuid,-s=131072 0 0" >> /etc/fstab
+echo "/dev/wd0b /tmp/phpsessions mfs rw,async,nodev,noexec,nosuid,-s=131072 0 0" >> /etc/fstab
+
+# Make a MySQL logs folder
+mkdir -p /var/log/mysql
+chown _mysql /var/log/mysql
 
 template="/var/mailserv/install/templates"
 install -m 644 \
+  ${template}/ntpd.conf \
   ${template}/clamd.conf \
   ${template}/daily.local \
   ${template}/monthly.local \
-  ${template}/dovecot-sql.conf \
   ${template}/freshclam.conf \
   ${template}/login.conf \
   ${template}/my.cnf \
@@ -34,7 +44,11 @@ install -m 644 \
   ${template}/clamav-milter.conf \
   /etc
 
+#Set the date now ntpd config is in place
+ntpd -s
+
 install -m 644 ${template}/dovecot.conf /etc/dovecot
+install -m 644 ${template}/dovecot-sql.conf /etc/dovecot
 
 install -m 600 ${template}/pf.conf /etc
 install -m 644 ${template}/nginx.conf /etc/nginx
@@ -99,13 +113,11 @@ if [[ $hi_ver_check == "true"  ]]; then
      # -----------------------------------------------------
      # Update your RAILS_GEM_VERSION
      # -----------------------------------------------------
-     echo " Installing rails:"
-     /usr/local/bin/gem install -V -v=2.3.4 rails;    
-     echo " Installing rubby apps:"
-     /usr/local/bin/gem install -V highline;
+     echo "Updating rails:"
+    /usr/local/bin/gem install -V -v=2.3.4 rails --no-ri --no-rdoc;
 fi 
 
-gsed -i -E 's/(fastcgi_param +HTTPS)/#\1/' /etc/nginx/fastcgi_params
+#gsed -i -E 's/(fastcgi_param +HTTPS)/#\1/' /etc/nginx/fastcgi_params
 
 # --------------------------------------------------------------
 # /etc/daily
@@ -145,6 +157,17 @@ fi
 # --------------------------------------------------------------
 /usr/local/bin/rake -s -f /var/mailserv/admin/Rakefile system:update_hostname RAILS_ENV=production
 
+# Increase number of available file descriptors
+echo 'kern.maxfiles=16384' >> /etc/sysctl.conf
+
+# Allow dovecot to open more files
+cat <<'EOT' >> /etc/login.conf
+_dovecot:\
+        :openfiles-cur=2048:\
+        :openfiles-max=4096:\
+        :tc=daemon:
+EOT
+
 chgrp 0 /etc/daily.local \
         /etc/login.conf \
         /etc/monthly.local \
@@ -156,9 +179,43 @@ chgrp 0 /etc/daily.local \
         /etc/syslog.conf
 
 # --------------------------------------------------------------
+# /etc/sysctl.conf
+# --------------------------------------------------------------
+
+
+# --------------------------------------------------------------
 # /etc/god
 # --------------------------------------------------------------
 mkdir /etc/god
 install -m 644 /var/mailserv/install/templates/fs/god/* /etc/god
 
+
+#---------------------------------------------------------------
+#  set up openfiles max if less than 1024 ( obsd usualy 128 )
+#---------------------------------------------------------------
+#maxfilestest=$( ulimit -n)
+
+#if [ $maxfilestest -lt 1024 ];
+#  then
+#    echo " "
+#    echo " setting openfiles-max to 1024 "
+#    echo " "
+#    ulimit -Sn 1024
+#fi
+
+#----------------------------------------------------------------
+# increase kern.maxfiles (important for dovecot)
+#----------------------------------------------------------------
+
+#kernmaxfiles=$( sysctl kern.maxfiles | awk -F= '{print $2}' )
+#kernmaxnew=10000
+
+#if [ $kernmaxfiles -lt $kernmaxnew ];
+#  then
+#   echo " "
+#   echo " setting kernmaxfiles "
+#  sysctl kern.maxfiles=$kernmaxnew
+#   cat /etc/sysctl.conf | sed '/kern.maxfiles=.*/d' > /etc/sysctl.conf
+#   echo "kern.maxfiles=$kernmaxnew" >> /etc/sysctl.conf
+#fi
 

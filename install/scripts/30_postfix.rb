@@ -7,8 +7,12 @@ template_dir = File.join(File.dirname(__FILE__), '../templates/postfix')
 if ARGV[0] == "install"
   install("#{template_dir}/main.cf",   "/etc/postfix/", :mode => 644)
   install("#{template_dir}/master.cf", "/etc/postfix/", :mode => 644)
+  install("#{template_dir}/transport",   "/etc/postfix/", :mode => 644)
+  install("#{template_dir}/transport.regexp", "/etc/postfix/", :mode => 644)
   install("#{template_dir}/header_checks.pcre", "/etc/postfix/", :mode => 644)
   install("#{template_dir}/milter_header_checks", "/etc/postfix/", :mode => 644)
+  # Rebuild transport.db
+  `postmap /etc/postfix/transport`
 end
 
 #

@@ -49,6 +49,9 @@ spamassassin
           unix    -       n       n       -       -       pipe
   flags=Rqhu user=_spamdaemon argv=/usr/local/sbin/spamfilter -oi -f ${sender} ${recipient} ${user}@${domain}
 
+# http://stevejenkins.com/blog/2012/08/how-to-postfix-configuration-to-reduce-yahoo-deferrals-using-transport-maps/
+yahoo     unix  -       -       n       -       -       smtp
+        -o syslog_name=postfix-yahoo
 #
 # Postfix master process configuration file.  Each line describes how
 # a mailer component program should be run. The fields that make up
