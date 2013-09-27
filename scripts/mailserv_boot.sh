@@ -41,9 +41,21 @@ if [ -f /usr/local/awstats/awstats.pl ]; then
   perl /usr/local/awstats/awstats.pl -config=`hostname` -update > /dev/null &
 fi
 
+if [ -x /usr/local/sbin/php-fpm-5.3 ]; then
+  echo -n ' php'
+  /usr/local/sbin/php-fpm-5.3 -y /etc/php-fpm.conf
+fi
+
 if [ -x /usr/local/sbin/nginx ]; then
   echo -n ' nginx'
   /usr/local/sbin/nginx
+fi
+
+if [ -x /usr/local/bin/memcached ]; then
+  echo -n ' memcached'
+  mkdir -p /var/run/memcached
+  chown -R _memcached:_memcached /var/run/memcached
+  /usr/local/bin/memcached -d -m 64 -a 00755 -u _memcached -P /var/run/memcached/memcached.pid -s /var/run/memcached/memcached.sock
 fi
 
 # Start God system monitoring
@@ -51,3 +63,5 @@ if [ -x /usr/local/bin/god ]; then
   echo -n ' god'
   /usr/local/bin/god -c /etc/god/god.conf
 fi
+
+echo ''

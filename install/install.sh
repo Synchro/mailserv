@@ -5,6 +5,8 @@ if [[ `uname -s` != "OpenBSD" ]]; then
   exit 1
 fi
 
+export MAILSERV_DEVEL=0
+
 # git checkout branch for supported OpenBSD version or development branch
 # can also specify '--devel <branchname>' to use a specific named branch
 if [ "`echo $1`" == "--devel" ]; then
@@ -15,6 +17,9 @@ if [ "`echo $1`" == "--devel" ]; then
   fi
   # detect changes in devel branch 
   branch_changes=`git --git-dir=/var/mailserv/.git --work-tree=/var/mailserv status -s`
+
+  # Set an env var so scripts can know we're in devel mode
+  export MAILSERV_DEVEL=1
 
 elif [ "`echo $1`" == "--help" ]; then
   echo "Usage: install.sh [OPTION]"
@@ -52,22 +57,24 @@ else
   fi
 fi 
 
-
 if [[ ! -d /usr/X11R6 ]]; then
   echo "You need to install the xbaseXX.tgz package for this to work"
   exit 1
 fi
 
 for file in `ls /var/mailserv/install/scripts/*`; do
-  echo $file
+  echo "Starting ${file}"
+  echo "Starting ${file}" >> /var/log/install.log
   $file install 2>&1 | tee -a /var/log/install.log
+  echo "Finished ${file}"
+  echo "Finished ${file}" >> /var/log/install.log
 done
 
 #stop god 
 /usr/local/bin/god quit
 
 #---------------------------------------------------------------
-#  increase openfiles limit to 1024 ( obsd usualy runs 128 )
+#  increase openfiles limit to 1024 ( obsd usually runs 128 )
 #  necessary to dovecot start up
 #  (when server reboot limits are read from login.conf, sysctl.conf) 
 #---------------------------------------------------------------
@@ -101,10 +108,6 @@ sleep 1
 
 /var/mailserv/scripts/mailserv_boot.sh
 
-echo "#############################################"
-echo "Get the last version of Highline"
-/usr/local/bin/gem install highline
-
 echo ""
 echo ""
 echo "#############################################"
@@ -117,11 +120,11 @@ rake -s -f /var/mailserv/admin/Rakefile  mailserv:add_admin
 echo "Creating locate database"
 /usr/libexec/locate.updatedb
 
+#load PF
+/sbin/pfctl –f /etc/pf.conf
 
 echo ""
 echo "Installation complete."
 echo ""
 echo "Please browse to port 4200 to continue setting up Mailserv."
 echo ""
-
-

@@ -124,5 +124,3 @@ $rcmail_config['sieverules_use_elsif'] = TRUE;
 
 // For information on customising the rule file see "The structure of the rule file" in the README
 // For information on customising the contents of the drop downs see "Default values for header, operator and flag drop downs" in the README
-
-?>

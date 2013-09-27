@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$MAILSERV_DEVEL" -eq "1" ]; then
+  set -xv
+fi
+
 if [[ "$1" == "install" ]]; then
   /usr/local/bin/mysql_install_db > /dev/null 2>&1
 fi

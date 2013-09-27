@@ -1,7 +1,7 @@
 <?php
 
 $rcmail_config = array();
-$rcmail_config['db_dsnw'] = 'mysql://webmail:webmail@localhost/webmail';
+$rcmail_config['db_dsnw'] = 'mysqli://webmail:webmail@localhost/webmail';
 $rcmail_config['db_backend'] = 'db';
 
 // PEAR database DSN for read only operations (if empty write database will be used)
@@ -35,4 +35,3 @@ $rcmail_config['db_sequence_messages']   = 'message_ids';
 
 
 // end db config file
-?>

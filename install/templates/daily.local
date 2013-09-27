@@ -15,3 +15,6 @@
 
 # Restart ruby-god (avoiding potential memory leaks)
 /usr/local/bin/god quit >/dev/null; sleep 2; /usr/local/bin/god -c /etc/god/god.conf >/dev/null 2>&1
+
+# Update locate database
+/usr/libexec/locate.updatedb

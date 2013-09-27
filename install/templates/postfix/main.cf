@@ -52,7 +52,7 @@ virtual_transport = dovecot
 dovecot_destination_recipient_limit = 1
 transport_destination_recipient_limit = 1
 spamassassin_destination_recipient_limit = 1
-transport_maps = proxy:mysql:/etc/postfix/sql/routing.cf
+transport_maps = proxy:mysql:/etc/postfix/sql/routing.cf, hash:/etc/postfix/transport, regexp:/etc/postfix/transport.regexp
 relay_domains = proxy:mysql:/etc/postfix/sql/routing.cf
 recipient_delimiter = +
 
@@ -128,3 +128,10 @@ milter_header_checks = pcre:/etc/postfix/milter_header_checks
 header_checks = pcre:/etc/postfix/header_checks.pcre
 smtpd_milters =
   unix:/tmp/clamav-milter.sock
+
+# Yahoo transport settings
+
+yahoo_initial_destination_concurrency = 1
+yahoo_destination_concurrency_limit = 4
+yahoo_destination_recipient_limit = 2
+yahoo_destination_rate_delay = 1s

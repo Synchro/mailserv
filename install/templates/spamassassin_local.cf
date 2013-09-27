@@ -1,4 +1,3 @@
-
 loadplugin Mail::SpamAssassin::Plugin::TextCat
 loadplugin Mail::SpamAssassin::Plugin::AWL
 

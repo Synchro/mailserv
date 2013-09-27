@@ -159,4 +159,3 @@ $rcmail_config['sauserprefs_languages'] = array(
 									"cy" => "Welsh",
 									"yi" => "Yiddish"
 								);
-?>

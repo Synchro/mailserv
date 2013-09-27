@@ -29,7 +29,7 @@ $rcmail_config['log_driver'] = 'syslog';
 
 // date format for log entries
 // (read http://php.net/manual/en/function.date.php for all format characters)  
-$rcmail_config['log_date_format'] = 'd-M-Y H:i:s O';
+$rcmail_config['log_date_format'] = 'c';
 
 // Syslog ident string to use, if using the 'syslog' log driver.
 $rcmail_config['syslog_id'] = 'roundcube';
@@ -79,7 +79,7 @@ $rcmail_config['default_port'] = 143;
 
 // IMAP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
 // best server supported one)
-$rcmail_config['imap_auth_type'] = 'plain';
+$rcmail_config['imap_auth_type'] = 'CRAM-MD5';
 
 // If you know your imap's folder delimiter, you can specify it here.
 // Otherwise it will be determined automatically
@@ -120,7 +120,7 @@ $rcmail_config['imap_auth_cid'] = null;
 $rcmail_config['imap_auth_pw'] = null;
 
 // Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache'.
-$rcmail_config['imap_cache'] = null;
+$rcmail_config['imap_cache'] = 'apc';
 
 // Enables messages cache. Only 'db' cache is supported.
 $rcmail_config['messages_cache'] = false;
@@ -245,11 +245,12 @@ $rcmail_config['session_name'] = null;
 // Backend to use for session storage. Can either be 'db' (default) or 'memcache'
 // If set to memcache, a list of servers need to be specified in 'memcache_hosts'
 // Make sure the Memcache extension (http://pecl.php.net/package/memcache) version >= 2.0.0 is installed
-$rcmail_config['session_storage'] = 'db';
+$rcmail_config['session_storage'] = 'memcache';
 
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port or unix:///path/to/sock.file
-$rcmail_config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+// e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+$rcmail_config['memcache_hosts'] = array('unix:///var/run/memcached/memcached.sock');
 
 // check client IP in session athorization
 $rcmail_config['ip_check'] = false;
@@ -359,10 +360,10 @@ $rcmail_config['client_mimetypes'] = null;  # null == default
 $rcmail_config['mime_magic'] = '/usr/share/misc/magic';
 
 // path to imagemagick identify binary
-$rcmail_config['im_identify_path'] = null;
+$rcmail_config['im_identify_path'] = '/usr/local/bin/identify';
 
 // path to imagemagick convert binary
-$rcmail_config['im_convert_path'] = null;
+$rcmail_config['im_convert_path'] = '/usr/local/bin/convert';
 
 // maximum size of uploaded contact photos in pixel
 $rcmail_config['contact_photo_size'] = 160;
