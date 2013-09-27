@@ -57,22 +57,24 @@ else
   fi
 fi 
 
-
 if [[ ! -d /usr/X11R6 ]]; then
   echo "You need to install the xbaseXX.tgz package for this to work"
   exit 1
 fi
 
 for file in `ls /var/mailserv/install/scripts/*`; do
-  echo $file
+  echo "Starting ${file}"
+  echo "Starting ${file}" >> /var/log/install.log
   $file install 2>&1 | tee -a /var/log/install.log
+  echo "Finished ${file}"
+  echo "Finished ${file}" >> /var/log/install.log
 done
 
 #stop god 
 /usr/local/bin/god quit
 
 #---------------------------------------------------------------
-#  increase openfiles limit to 1024 ( obsd usualy runs 128 )
+#  increase openfiles limit to 1024 ( obsd usually runs 128 )
 #  necessary to dovecot start up
 #  (when server reboot limits are read from login.conf, sysctl.conf) 
 #---------------------------------------------------------------

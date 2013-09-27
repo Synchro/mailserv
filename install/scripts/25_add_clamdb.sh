@@ -13,5 +13,5 @@ if [ ! -f /var/db/clamav/main.cld ]; then
   mkdir -p /var/db/clamav
   chown -R _clamav:_clamav /var/db/clamav
   #Don't wait for clam DB download
-  /usr/local/bin/freshclam --daemon --no-warnings
+  /usr/local/bin/freshclam --no-warnings
 fi
