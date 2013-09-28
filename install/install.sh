@@ -5,7 +5,7 @@ if [[ `uname -s` != "OpenBSD" ]]; then
   exit 1
 fi
 
-export MAILSERV_DEVEL=0
+export MAILSERV_DEVEL=1
 
 # git checkout branch for supported OpenBSD version or development branch
 # can also specify '--devel <branchname>' to use a specific named branch
