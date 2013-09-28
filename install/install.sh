@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -xv
 if [[ `uname -s` != "OpenBSD" ]]; then
   echo "This only works on OpenBSD!"
   exit 1
@@ -62,10 +62,10 @@ if [[ ! -d /usr/X11R6 ]]; then
   exit 1
 fi
 
-for file in `ls /var/mailserv/install/scripts/*`; do
+for file in /var/mailserv/install/scripts/*; do
   echo "Starting ${file}"
   echo "Starting ${file}" >> /var/log/install.log
-  env MAILSERV_DEVEL=$MAILSERV_DEVEL $file install 2>&1 | tee -a /var/log/install.log
+  env MAILSERV_DEVEL=$MAILSERV_DEVEL "${file}" install 2>&1 | tee -a /var/log/install.log
   echo "Finished ${file}"
   echo "Finished ${file}" >> /var/log/install.log
 done
