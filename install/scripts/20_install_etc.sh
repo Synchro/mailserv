@@ -216,3 +216,4 @@ install -m 644 /var/mailserv/install/templates/fs/god/* /etc/god
 #   echo "kern.maxfiles=$kernmaxnew" >> /etc/sysctl.conf
 #fi
 
+exit 0

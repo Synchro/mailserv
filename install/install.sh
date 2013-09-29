@@ -1,5 +1,6 @@
 #!/bin/sh
 set -xv
+set -e
 if [[ `uname -s` != "OpenBSD" ]]; then
   echo "This only works on OpenBSD!"
   exit 1
