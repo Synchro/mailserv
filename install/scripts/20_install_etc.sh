@@ -16,12 +16,6 @@ install /var/mailserv/install/templates/fs/sbin/* /usr/local/sbin/
 mkdir -p /usr/local/share/mailserv
 install /var/mailserv/install/templates/fs/mailserv/* /usr/local/share/mailserv
 
-# Create a 64M RAM disk to keep PHP sessions in
-mkdir -p /tmp/phpsessions
-mount_mfs -s 131072 -o rw,async,nodev,noexec,nosuid swap /tmp/phpsessions
-chown -R www:www /tmp/phpsessions
-echo "swap /tmp/phpsessions mfs rw,async,nodev,noexec,nosuid,-s=131072 0 0" >> /etc/fstab
-
 # Make a MySQL logs folder
 mkdir -p /var/log/mysql
 chown _mysql /var/log/mysql
