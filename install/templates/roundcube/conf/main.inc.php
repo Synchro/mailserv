@@ -250,7 +250,7 @@ $rcmail_config['session_storage'] = 'memcache';
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port or unix:///path/to/sock.file
 // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
-$rcmail_config['memcache_hosts'] = array('unix:///var/run/memcached/memcached.sock');
+$rcmail_config['memcache_hosts'] = array('127.0.0.1:11211');
 
 // check client IP in session athorization
 $rcmail_config['ip_check'] = false;

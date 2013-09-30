@@ -2,7 +2,7 @@ God.watch do |w|
   w.name = "memcached"
   w.interval = 30.seconds
   w.pid_file = "/var/run/memcached/memcached.pid"
-  w.start = "/usr/local/bin/memcached -d -m 64 -a 00777 -u _memcached -P /var/run/memcached/memcached.pid -s /var/run/memcached/memcached.sock"
+  w.start = "/usr/local/bin/memcached -d -m 64 -u _memcached -P /var/run/memcached/memcached.pid -l 127.0.0.1 -p 11211"
   w.stop = "kill `cat /var/run/memcached/memcached.pid`"
   w.restart = "kill -HUP `cat /var/run/memcached/memcached.pid`"
   w.start_grace = 20.seconds

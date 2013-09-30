@@ -55,7 +55,7 @@ if [ -x /usr/local/bin/memcached ]; then
   echo -n ' memcached'
   mkdir -p /var/run/memcached
   chown -R _memcached:_memcached /var/run/memcached
-  /usr/local/bin/memcached -d -m 64 -a 00755 -u _memcached -P /var/run/memcached/memcached.pid -s /var/run/memcached/memcached.sock
+  /usr/local/bin/memcached -d -m 64 -u _memcached -P /var/run/memcached/memcached.pid -l 127.0.0.1 -p 11211
 fi
 
 # Start God system monitoring
