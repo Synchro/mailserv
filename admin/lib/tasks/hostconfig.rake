@@ -13,7 +13,7 @@ namespace :system do
   desc "Reload services"
   task :reload do
     exec("
-      /usr/sbin/nginx -s reload    > /dev/null &&
+      /usr/local/sbin/nginx -s reload    > /dev/null &&
       /usr/local/bin/god restart dovecot > /dev/null &&
       /usr/local/bin/god restart postfix > /dev/null &
     ")

@@ -44,12 +44,11 @@ __EOT
      ruby-iconv \
      god \
      dovecot-pigeonhole \
+     dovecot-mysql \
      memcached \
      mysql-server \
-     nginx \
-     pcre \
+     nginx-1.2.3p1 \
      sqlgrey \
-     god \
      gsed \
      gtar-- \
      php-5.3.21 \

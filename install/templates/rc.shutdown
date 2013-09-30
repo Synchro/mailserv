@@ -24,7 +24,7 @@ echo -n " postfix"
 /usr/local/sbin/postfix stop >/dev/null 2>&1
 
 echo -n " nginx"
-/usr/sbin/nginx -s stop >/dev/null 2>&1
+/usr/local/sbin/nginx -s stop >/dev/null 2>&1
 
 echo -n ' memcached'
 kill `cat /var/run/memcached/memcached.pid` > /dev/null 2>&1
