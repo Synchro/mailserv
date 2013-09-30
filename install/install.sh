@@ -65,10 +65,8 @@ fi
 
 for file in /var/mailserv/install/scripts/*; do
   echo "Starting ${file}"
-  echo "Starting ${file}" >> /var/log/install.log
-  env MAILSERV_DEVEL=$MAILSERV_DEVEL "${file}" install 2>&1 | tee -a /var/log/install.log
+  env MAILSERV_DEVEL=$MAILSERV_DEVEL "${file}" install
   echo "Finished ${file}"
-  echo "Finished ${file}" >> /var/log/install.log
 done
 
 #stop god 
