@@ -1,0 +1,2 @@
+# Yahoo Wildcards
+/yahoo(\.[a-z]{2,3}){1,2}$/  yahoo:
