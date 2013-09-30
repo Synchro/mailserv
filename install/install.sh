@@ -62,12 +62,10 @@ if [[ ! -d /usr/X11R6 ]]; then
   exit 1
 fi
 
-for file in `ls /var/mailserv/install/scripts/*`; do
+for file in /var/mailserv/install/scripts/*; do
   echo "Starting ${file}"
-  echo "Starting ${file}" >> /var/log/install.log
-  $file install 2>&1 | tee -a /var/log/install.log
+  env MAILSERV_DEVEL=$MAILSERV_DEVEL "${file}" install
   echo "Finished ${file}"
-  echo "Finished ${file}" >> /var/log/install.log
 done
 
 #stop god 
@@ -108,10 +106,6 @@ sleep 1
 
 /var/mailserv/scripts/mailserv_boot.sh
 
-echo "#############################################"
-echo "Get the latest version of Highline"
-/usr/local/bin/gem install highline
-
 echo ""
 echo ""
 echo "#############################################"
@@ -125,7 +119,7 @@ echo "Creating locate database"
 /usr/libexec/locate.updatedb
 
 #load PF
-/sbin/pfctl –f /etc/pf.conf
+/sbin/pfctl -f /etc/pf.conf
 
 echo ""
 echo "Installation complete."
