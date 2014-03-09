@@ -8,7 +8,7 @@ mkdir -p /var/log/mysql
 chown -R _mysql:_mysql /var/log/mysql
 
 if [[ "$1" == "install" ]]; then
-  /usr/local/bin/mysql_install_db > /dev/null 2>&1
+  /usr/local/bin/mysql_install_db --skip-name-resolve > /dev/null 2>&1
 fi
 
 pgrep -f god > /dev/null
