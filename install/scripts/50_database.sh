@@ -4,6 +4,9 @@ if [ "$MAILSERV_DEVEL" -eq "1" ]; then
   set -xv
 fi
 
+mkdir -p /var/log/mysql
+chown -R _mysql:_mysql /var/log/mysql
+
 if [[ "$1" == "install" ]]; then
   /usr/local/bin/mysql_install_db > /dev/null 2>&1
 fi
