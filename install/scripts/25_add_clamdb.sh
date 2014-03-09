@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ "$MAILSERV_DEVEL" -eq "1" ]; then
-  set -xv
-fi
-
 if [ ! -f /var/db/clamav/main.cld ]; then
   echo "Initial download of ClamAV AV Signatures"
   touch /var/log/clamd.log && chown _clamav:_clamav /var/log/clamd.log
@@ -12,5 +8,6 @@ if [ ! -f /var/db/clamav/main.cld ]; then
   
   mkdir -p /var/db/clamav
   chown -R _clamav:_clamav /var/db/clamav
-  /usr/local/bin/freshclam --no-warnings
+  # Do initial download for clamav in background as it's often very slow
+  /usr/local/bin/freshclam --no-warnings &
 fi

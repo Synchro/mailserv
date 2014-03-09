@@ -1,9 +1,9 @@
 $stdout.sync = true
 namespace :mailserv do
 
-  desc "Displays the Installed mailserver version"
+  desc "Displays the Installed mailserv version"
   task :version do
-    STDOUT.puts "Mailserv #{File.read("/usr/local/share/mailserver/version")}"
+    STDOUT.puts "Mailserv #{File.read("/usr/local/share/mailserv/version")}"
   end
   
 end
