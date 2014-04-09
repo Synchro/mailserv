@@ -1,3 +1,7 @@
 ntpd_flags="-s"
 sendmail_flags=NO
 pf=YES
+spamd_flags="-s mail -u _spamd -dxq -r /var/run/spamd.pid -i 127.0.0.1 --max-spare=5"
+memcached_flags="-d -m 64 -u _memcached -P /var/run/memcached/memcached.pid -l 127.0.0.1 -p 11211"
+freshclam_flags="--no-warnings"
+php_fpm_flags="-y /etc/php-fpm.conf"

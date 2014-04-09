@@ -2,9 +2,9 @@ God.watch do |w|
   w.name = "freshclam"
   w.interval = 1.hours
   w.pid_file = "/var/run/freshclam.pid"
-  w.start = "/usr/local/bin/freshclam --daemon --no-warnings"
-  w.stop = "kill `cat /var/run/freshclam.pid`"
-  w.restart = "kill `cat /var/run/freshclam.pid` && sleep 3 && /usr/local/bin/freshclam --daemon --no-warnings"
+  w.start = "/etc/rc.d/freshclam start"
+  w.stop = "/etc/rc.d/freshclam stop"
+  w.restart = "/etc/rc.d/freshclam restart"
   w.start_grace = 30.seconds
   w.restart_grace = 30.seconds
 

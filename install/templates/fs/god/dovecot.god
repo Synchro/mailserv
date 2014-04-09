@@ -1,13 +1,10 @@
-# run with:  god -c /etc/god/dovecot.god
-#
-
 God.watch do |w|
   w.name = "dovecot"
   w.group = "mailserv"
   w.interval = 30.seconds # default
-  w.start = "/usr/local/sbin/dovecot"
-  w.stop = "kill `cat /var/dovecot/master.pid`"
-  w.restart = "kill -HUP `cat /var/dovecot/master.pid`"
+  w.start = "/etc/rc.d/dovecot start"
+  w.stop = "/etc/rc.d/dovecot stop"
+  w.restart = "/etc/rc.d/dovecot restart"
   w.start_grace = 10.seconds
   w.restart_grace = 10.seconds
   w.pid_file = "/var/dovecot/master.pid"
