@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 echo -n "Starting mailserv daemons:"
 
