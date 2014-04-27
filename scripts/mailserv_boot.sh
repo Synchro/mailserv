@@ -15,12 +15,13 @@ if [ -x /usr/local/sbin/dovecot ]; then
 fi
 
 # Update ClamAV databases
-if [ -x /usr/local/bin/freshclam ]; then
-  echo -n ' freshclam'
-  touch /var/run/freshclam.pid
-  chown _clamav:_clamav /var/run/freshclam.pid
-  /usr/local/bin/freshclam --daemon --no-warnings
-fi
+#This is launched via rc.conf.local
+# if [ -x /usr/local/bin/freshclam ]; then
+#  echo -n ' freshclam'
+#  touch /var/run/freshclam.pid
+#  chown _clamav:_clamav /var/run/freshclam.pid
+#  /usr/local/bin/freshclam --daemon --no-warnings
+#fi
 
 # ClamAV Startup
 if [ -x /usr/local/sbin/clamd ]; then
@@ -31,9 +32,10 @@ if [ -x /usr/local/sbin/clamd ]; then
     echo -n ' clamd'; /usr/local/sbin/clamd > /dev/null 2>&1
 fi
 
-if [ -x /usr/local/bin/spamd ]; then
-  /usr/local/bin/spamd -s mail -u _spamd -dxq -r /var/run/spamd.pid -i 127.0.0.1
-fi
+#This is launched via rc.conf.local
+#if [ -x /usr/local/bin/spamd ]; then
+#  /usr/local/bin/spamd -s mail -u _spamd -dxq -r /var/run/spamd.pid -i 127.0.0.1
+#fi
 
 # Collect mail statistics
 if [ -f /usr/local/awstats/awstats.pl ]; then
@@ -41,21 +43,24 @@ if [ -f /usr/local/awstats/awstats.pl ]; then
   perl /usr/local/awstats/awstats.pl -config=`hostname` -update > /dev/null &
 fi
 
-if [ -x /usr/local/sbin/php-fpm-5.3 ]; then
-  echo -n ' php'
-  /usr/local/sbin/php-fpm-5.3 -y /etc/php-fpm.conf
-fi
+#This is launched via rc.conf.local
+#if [ -x /usr/local/sbin/php-fpm-5.3 ]; then
+#  echo -n ' php'
+#  /usr/local/sbin/php-fpm-5.3 -y /etc/php-fpm.conf
+#fi
 
-if [ -x /usr/local/sbin/nginx ]; then
-  echo -n ' nginx'
-  /usr/local/sbin/nginx
-fi
+#This is launched via rc.conf.local
+#if [ -x /usr/local/sbin/nginx ]; then
+#  echo -n ' nginx'
+#  /usr/local/sbin/nginx
+#fi
 
+#This is launched via rc.conf.local
 if [ -x /usr/local/bin/memcached ]; then
-  echo -n ' memcached'
-  mkdir -p /var/run/memcached
-  chown -R _memcached:_memcached /var/run/memcached
-  /usr/local/bin/memcached -d -m 64 -u _memcached -P /var/run/memcached/memcached.pid -l 127.0.0.1 -p 11211
+#  echo -n ' memcached'
+#  mkdir -p /var/run/memcached
+#  chown -R _memcached:_memcached /var/run/memcached
+#  /usr/local/bin/memcached -d -m 64 -u _memcached -P /var/run/memcached.pid -l 127.0.0.1 -p 11211
 fi
 
 # Start God system monitoring
