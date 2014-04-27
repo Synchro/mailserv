@@ -56,12 +56,12 @@ fi
 #fi
 
 #This is launched via rc.conf.local
-if [ -x /usr/local/bin/memcached ]; then
+#if [ -x /usr/local/bin/memcached ]; then
 #  echo -n ' memcached'
 #  mkdir -p /var/run/memcached
 #  chown -R _memcached:_memcached /var/run/memcached
 #  /usr/local/bin/memcached -d -m 64 -u _memcached -P /var/run/memcached.pid -l 127.0.0.1 -p 11211
-fi
+#fi
 
 # Start God system monitoring
 if [ -x /usr/local/bin/god ]; then
