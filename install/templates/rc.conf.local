@@ -6,4 +6,4 @@ memcached_flags="-m 64 -u _memcached -P /var/run/memcached/memcached.pid -l 127.
 freshclam_flags="--no-warnings --user _clamav"
 php_fpm_flags="-y /etc/php-fpm.conf"
 nginx_flags=""
-pkg_scripts="clamd"
+pkg_scripts="memcached php_fpm clamd freshclam dovecot"
