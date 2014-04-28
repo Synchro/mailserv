@@ -10,6 +10,12 @@ chmod 4750 /usr/local/libexec/dovecot/deliver
 
 /usr/local/bin/mysqld_start
 
+#Create PID folders
+mkdir -p /var/run/freshclam
+chown -R _clamav:_clamav /var/run/freshclam
+mkdir -p /var/run/clamd
+chown -R _postfix:_postfix /var/run/clamd
+
 if [ -x /usr/local/sbin/dovecot ]; then
   echo -n ' dovecot'; /usr/local/sbin/dovecot >/dev/null 2>&1
 fi
@@ -18,8 +24,6 @@ fi
 #This is launched via rc.conf.local
 # if [ -x /usr/local/bin/freshclam ]; then
 #  echo -n ' freshclam'
-#  touch /var/run/freshclam.pid
-#  chown _clamav:_clamav /var/run/freshclam.pid
 #  /usr/local/bin/freshclam --daemon --no-warnings
 #fi
 
@@ -27,8 +31,6 @@ fi
 if [ -x /usr/local/sbin/clamd ]; then
     chown _postfix /var/log/clamd.log
     rm -f /var/tmp/clamd
-    touch /var/run/clamd.pid
-    chown _postfix:_postfix /var/run/clamd.pid
     echo -n ' clamd'; /usr/local/sbin/clamd > /dev/null 2>&1
 fi
 
@@ -42,26 +44,6 @@ if [ -f /usr/local/awstats/awstats.pl ]; then
   echo -n ' awstats'
   perl /usr/local/awstats/awstats.pl -config=`hostname` -update > /dev/null &
 fi
-
-#This is launched via rc.conf.local
-#if [ -x /usr/local/sbin/php-fpm-5.3 ]; then
-#  echo -n ' php'
-#  /usr/local/sbin/php-fpm-5.3 -y /etc/php-fpm.conf
-#fi
-
-#This is launched via rc.conf.local
-#if [ -x /usr/local/sbin/nginx ]; then
-#  echo -n ' nginx'
-#  /usr/local/sbin/nginx
-#fi
-
-#This is launched via rc.conf.local
-#if [ -x /usr/local/bin/memcached ]; then
-#  echo -n ' memcached'
-#  mkdir -p /var/run/memcached
-#  chown -R _memcached:_memcached /var/run/memcached
-#  /usr/local/bin/memcached -d -m 64 -u _memcached -P /var/run/memcached.pid -l 127.0.0.1 -p 11211
-#fi
 
 # Start God system monitoring
 if [ -x /usr/local/bin/god ]; then

@@ -1,7 +1,7 @@
 God.watch do |w|
   w.name = "freshclam"
   w.interval = 1.hours
-  w.pid_file = "/var/run/freshclam.pid"
+  w.pid_file = "/var/run/freshclam/freshclam.pid"
   w.start = "/etc/rc.d/freshclam start"
   w.stop = "/etc/rc.d/freshclam stop"
   w.restart = "/etc/rc.d/freshclam restart"

@@ -1,3 +1,4 @@
+#!/bin/sh
 # Only run on install
 [[ "$1" != "install" ]] && exit 1
 
@@ -41,6 +42,10 @@ install -m 644 ${template}/nginx.conf /etc/nginx
 
 install -m 644 /var/mailserv/install/templates/spamassassin_local.cf /etc/mail/spamassassin/local.cf
 install -m 644 /var/mailserv/install/templates/rc.local /etc
+
+#The system provided spamd is a different daemon altogether that clashes with spamassassin
+# So we need to provide our own rc.d file that points at the right one
+install -m 755 /var/mailserv/install/templates/spamd_rc.d /etc/rc.d/spamd
 
 # --------------------------------------------------------------
 # /etc/motd
