@@ -10,39 +10,10 @@ chmod 4750 /usr/local/libexec/dovecot/deliver
 
 /usr/local/bin/mysqld_start
 
-#Create PID folders
-mkdir -p /var/run/freshclam
-chown -R _clamav:_clamav /var/run/freshclam
-mkdir -p /var/run/clamd
-chown -R _postfix:_postfix /var/run/clamd
-
-if [ -x /usr/local/sbin/dovecot ]; then
-  echo -n ' dovecot'; /usr/local/sbin/dovecot >/dev/null 2>&1
-fi
-
-# Update ClamAV databases
-#This is launched via rc.conf.local
-# if [ -x /usr/local/bin/freshclam ]; then
-#  echo -n ' freshclam'
-#  /usr/local/bin/freshclam --daemon --no-warnings
-#fi
-
-# ClamAV Startup
-if [ -x /usr/local/sbin/clamd ]; then
-    chown _postfix /var/log/clamd.log
-    rm -f /var/tmp/clamd
-    echo -n ' clamd'; /usr/local/sbin/clamd > /dev/null 2>&1
-fi
-
-#This is launched via rc.conf.local
-#if [ -x /usr/local/bin/spamd ]; then
-#  /usr/local/bin/spamd -s mail -u _spamd -dxq -r /var/run/spamd.pid -i 127.0.0.1
-#fi
-
 # Collect mail statistics
-if [ -f /usr/local/awstats/awstats.pl ]; then
+if [ -f /usr/local/awstats/wwwroot/cgi-bin/awstats.pl ]; then
   echo -n ' awstats'
-  perl /usr/local/awstats/awstats.pl -config=`hostname` -update > /dev/null &
+  /usr/bin/perl /usr/local/awstats/wwwroot/cgi-bin/awstats.pl -config=`hostname` -update > /dev/null &
 fi
 
 # Start God system monitoring
