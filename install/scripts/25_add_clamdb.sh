@@ -10,6 +10,7 @@ if [ ! -f /var/db/clamav/main.cld ]; then
   chown -R _clamav:_clamav /var/db/clamav
   /usr/bin/install -m 755 /var/mailserv/install/templates/clamd_rc.d /etc/rc.d/clamd
   /usr/bin/install -m 755 /var/mailserv/install/templates/freshclam_rc.d /etc/rc.d/freshclam
+  /usr/bin/install -m 755 /var/mailserv/install/templates/clamav_milter_rc.d /etc/rc.d/clamav_milter
 
   # Do initial download for clamav in background as it's often very slow
   /usr/local/bin/freshclam --no-warnings &
